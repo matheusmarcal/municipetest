@@ -33,53 +33,55 @@
 
             .tab-content.tab-space
               #link1.tab-pane.active.show
-                = form_for(model, url: url, method: method, class: 'form-horizontal', role: 'form', remote: true, html: {multipart: true, autocomplete: 'off', id: SecureRandom.hex(10)}) do |f|
-                  .form-row
-                    .form-group.bmd-form-group.col-lg-9
-                      %label.bmd-label-floating Nome completo
-                      = f.text_field :nome_completo, class: 'form-control', required: true
-                    .form-group.bmd-form-group.col-lg-3
-                      %label.bmd-label-floating Data de Nascimento
-                      = f.date_field :data_de_nascimento, class: 'form-control', required: true
+                .card
+                  .card-body
+                    = form_for(model, url: url, method: method, class: 'form-horizontal', role: 'form', remote: true, html: {multipart: true, autocomplete: 'off', id: SecureRandom.hex(10)}) do |f|
+                      .form-row
+                        .form-group.bmd-form-group.col-lg-9
+                          %label.bmd-label-floating Nome completo
+                          = f.text_field :nome_completo, class: 'form-control', required: true
+                        .form-group.bmd-form-group.col-lg-3
+                          %label.bmd-label-floating Data de Nascimento
+                          = f.date_field :data_de_nascimento, class: 'form-control', required: true
 
-                  .form-row
-                    .form-group.bmd-form-group.col-lg-6
-                      %label.bmd-label-floating E-mail
-                      = f.text_field :email, class: 'form-control', required: true, type: :email, required: true
-                    .form-group.bmd-form-group.col-lg-6
-                      %label.bmd-label-floating Fone de contato
-                      = f.text_field :telefone, class: 'form-control cellphone', required: true
+                      .form-row
+                        .form-group.bmd-form-group.col-lg-6
+                          %label.bmd-label-floating E-mail
+                          = f.text_field :email, class: 'form-control', required: true, type: :email, required: true
+                        .form-group.bmd-form-group.col-lg-6
+                          %label.bmd-label-floating Fone de contato
+                          = f.text_field :telefone, class: 'form-control cellphone', required: true
 
-                  .form-row
-                    .form-group.bmd-form-group.col-lg-6
-                      %label.bmd-label-floating CPF
-                      = f.text_field :cpf, class: 'form-control', required: true
-                    .form-group.bmd-form-group.col-lg-6
-                      %label.bmd-label-floating CNS
-                      = f.text_field :cns, class: 'form-control', required: true
+                      .form-row
+                        .form-group.bmd-form-group.col-lg-6
+                          %label.bmd-label-floating CPF
+                          = f.text_field :cpf, class: 'form-control', required: true
+                        .form-group.bmd-form-group.col-lg-6
+                          %label.bmd-label-floating CNS
+                          = f.text_field :cns, class: 'form-control', required: true
 
-                  .form-row
-                    %label.bmd-label-floating Foto
-                    = f.file_field :foto, class: 'file-form-control mt-4', accept: "image/*"
+                      .form-row
+                        %label.bmd-label-floating Foto
+                        = f.file_field :foto, class: 'file-form-control mt-4', accept: "image/*"
 
-                  - if method.eql?(:put)
-                    .form-row.mt-2
-                      .form-group.bmd-form-group.col-lg-6
-                        %label.bmd-label-floating Data de cadastro
-                        %br
-                        .form-control
-                          #{parse_created_at @item.created_at}
-                      .form-group.bmd-form-group.col-lg-6
-                        %label.bmd-label-static.pb-3 Status
-                        %br
-                        = f.select :status, [['Ativo', true],['Inativo', false]],
-                          {},
-                          { class: "form-control mt-4", id: :status, required: true }
+                      - if method.eql?(:put)
+                        .form-row.mt-2
+                          .form-group.bmd-form-group.col-lg-6
+                            %label.bmd-label-floating Data de cadastro
+                            %br
+                            .form-control
+                              #{parse_created_at @item.created_at}
+                          .form-group.bmd-form-group.col-lg-6
+                            %label.bmd-label-static.pb-3 Status
+                            %br
+                            = f.select :status, [['Ativo', true],['Inativo', false]],
+                              {},
+                              { class: "form-control mt-4", id: :status, required: true }
 
-                  .card-footer
-                    .text-right
-                      = link_to 'VOLTAR', panel_v1_municipes_path, class: 'btn btn-fill btn-default', data: {disable_with: disable_with}
-                      = button_tag 'ENVIAR DADOS', class: 'btn btn-fill btn-rose', data: {disable_with: disable_with}
+                      .card-footer
+                        .text-right
+                          = link_to 'VOLTAR', panel_v1_municipes_path, class: 'btn btn-fill btn-default', data: {disable_with: disable_with}
+                          = button_tag 'ENVIAR DADOS', class: 'btn btn-fill btn-rose', data: {disable_with: disable_with}
 
               - if method.eql?(:put)
                 #link2.tab-pane
@@ -87,12 +89,8 @@
                     - if Endereco.where(municipe: @item).present?
                       - Endereco.where(municipe: @item).each do |address|
                         .card
-                          .card-header
-                            %h2.mb-0
-                              %button.btn.btn-link{"aria-controls" => "collapseOne", "aria-expanded" => "true", "data-target" => "##{address.id}", "data-toggle" => "collapse", :type => "button"}
-                                Endereço - #{address.logradouro}
-                            .card-body
-                              = render partial: 'panel/v1/enderecos/shared/form', locals: {municipe: @item, model: address, url: panel_v1_municipe_endereco_path(@item, address), method: :put}
+                          .card-body
+                            = render partial: 'panel/v1/enderecos/shared/form', locals: {municipe: @item, model: address, url: panel_v1_municipe_endereco_path(@item, address), method: :put}
                     - else
                       .card
                         .card-body
