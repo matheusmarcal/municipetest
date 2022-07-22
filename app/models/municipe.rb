@@ -13,6 +13,8 @@ class Municipe < ApplicationRecord
 
   validates :nome_completo, presence: { message: "O nome do municipe não pode ficar em branco."}
   validates :cpf, presence: { message: "O CPF do municipe não pode ficar em branco."}
+  validates :cpf, uniqueness: { message: "CPF ja cadastrado na base de dados."}
+  validates :cns, uniqueness: { message: "CNS ja cadastrado na base de dados."}
   validates :cns, presence: { message: "O CNS do municipe não pode ficar em branco."}
   validates :email, presence: { message: "O E-mail do municipe não pode ficar em branco."}
   validates :data_de_nascimento, presence: { message: "A data de nascimento do municipe não pode ficar em branco."}
