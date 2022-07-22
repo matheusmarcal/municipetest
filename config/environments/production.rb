@@ -101,7 +101,7 @@ Rails.application.configure do
     :address => Figaro.env.mailer_address,
     :port => 587,
     :user_name => Figaro.env.mailer_username,
-    :password => Figaro.env.mailer_password,
+    :password => ENV['GMAIL_PASSWORD'],
     :authentication => 'plain',
     :enable_starttls_auto => true
   }

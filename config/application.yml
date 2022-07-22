@@ -13,8 +13,10 @@
 mailer_host: 'localhost:3000'
 mailer_address: 'smtp.gmail.com'
 mailer_username: 'mtsconde@gmail.com'
-mailer_password: 'kpbkpflyagopimnj'
 
 twilio_phone_number: '+19475006074'
-twilio_account_sid: 'AC9ce81230e333f54270cc6ca0a0666573'
-twilio_auth_token: '98109eb6ac7d0ba9104c7cb512e08114'
+
+production:
+  twilio_account_sid: ENV['TWILIO_ACCOUNT_SID']
+  twilio_auth_token: ENV['TWILIO_AUTH_TOKEN']
+  mailer_password: ENV['GMAIL_PASSWORD']
