@@ -14,14 +14,12 @@ module Panel::V1
     end
 
     def create
-      begin
-        @item = Municipe.new(municipe_params)
-        if !@item.save!
-          @error = @item.errors.first
-        end
-      rescue StandardError => e
-        @error = e.message
+      @item = Municipe.new(municipe_params)
+      if !@item.save!
+        @error = @item.errors.first
       end
+    rescue StandardError => e
+      @error = e.message
     end
 
     private

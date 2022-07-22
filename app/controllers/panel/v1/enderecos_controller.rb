@@ -4,24 +4,20 @@ module Panel::V1
     def index; end
 
     def create
-      begin
-        @item = Endereco.new(endereco_params)
-        if !@item.save!
-          @error = @item.errors.first
-        end
-      rescue StandardError => e
-        @error = e.message
+      @item = Endereco.new(endereco_params)
+      if !@item.save!
+        @error = @item.errors.first
       end
+    rescue StandardError => e
+      @error = e.message
     end
 
     def update
-      begin
-        if !@item.update(endereco_params)
-          @error = @item.errors.first
-        end
-      rescue StandardError => e
-        @error = e.message
+      if !@item.update(endereco_params)
+        @error = @item.errors.first
       end
+    rescue StandardError => e
+      @error = e.message
     end
 
     private
