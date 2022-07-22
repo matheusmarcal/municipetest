@@ -1,0 +1,31 @@
+= form_for(model, url: url, method: method, class: 'form-horizontal', role: 'form', remote: true, html: {multipart: true, autocomplete: 'off'}) do |g|
+  = g.hidden_field :municipe_id, value: municipe.id, class: 'form-control', required: true
+  .form-row
+    .form-group.bmd-form-group.col-lg-3
+      %label.bmd-label-floating Cep
+      = g.text_field :cep, class: 'form-control cep', required: true
+    .form-group.bmd-form-group.col-lg-9
+      %label.bmd-label-floating Rua
+      = g.text_field :logradouro, class: 'form-control', required: true
+  .form-row
+    .form-group.bmd-form-group.col-lg-5
+      %label.bmd-label-floating Bairro
+      = g.text_field :bairro, class: 'form-control', required: true
+    .form-group.bmd-form-group.col-lg-5
+      %label.bmd-label-floating Complemento
+      = g.text_field :complemento, class: 'form-control'
+    .form-group.bmd-form-group.col-lg-2
+      %label.bmd-label-floating Código IBGE
+      = g.text_field :codigo_ibge, class: 'form-control'
+  .form-row.mt-2
+    .form-group.bmd-form-group.col-lg-3
+      %label.mr-2.bmd-label-static UF
+      = g.text_field :uf, class: 'form-control', required: true
+    .form-group.bmd-form-group.col-lg-9
+      %label.mr-2.bmd-label-static Cidade
+      = g.text_field :cidade, class: 'form-control', required: true
+
+  .card-footer
+    .text-right
+      = link_to 'VOLTAR', panel_v1_municipes_path, class: 'btn btn-fill btn-default', data: {disable_with: disable_with}
+      = button_tag 'ENVIAR DADOS', class: 'btn btn-fill btn-rose', data: {disable_with: disable_with}

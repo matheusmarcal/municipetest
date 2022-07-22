@@ -1,0 +1,5 @@
+- if @error.present?
+  userAlert("Ops", "#{@error.to_s}",'error');
+- else
+  userAlert('Ok', 'Criado com sucesso!','success');
+  window.setTimeout(function(){location.reload()},3000)

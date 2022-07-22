@@ -1,0 +1,2 @@
+$('#editable-modal-area').html("#{escape_javascript (render partial: 'panel/v1/municipes/shared/form', locals: {model: @item, url: panel_v1_municipe_path(@item), method: :put}) }");
+$("#modal").modal('toggle');

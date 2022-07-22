@@ -1,0 +1,11 @@
+.sidebar{"data-background-color" => "white", "data-color" => "danger", "data-image" => ""}
+  .logo
+    %a.simple-text.logo-mini{:href => "javascript:void(0)"}
+    %a.simple-text.logo-normal{:href => "javascript:void(0)"}
+      Municipe Teste
+  .sidebar-wrapper
+    %ul.nav
+      %li.nav-item{class: "#{controller_name.to_s.eql?('municipes') ? 'active' : ''}"}
+        %a.nav-link{:href => panel_v1_municipes_path}
+          %i.fa.fa-users
+          %p Municipes

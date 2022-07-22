@@ -1,0 +1,32 @@
+.card-body
+  .table-responsive.table-sales
+    %table.table
+      %table.table
+        %thead.text-primary
+          %tr
+            %th
+              %i.fa.fa-image
+            %th
+              Nome
+            %th
+              CPF
+            %th
+              CNS
+            %th
+              Data de cadastro
+            %th.text-center
+              %i.fa.fa-cog
+        %tbody
+          - @items.each do |item|
+            %tr
+              %td
+                %img.rounded{:src => item.foto(:thumb)}
+              %td{width: 400} #{item.nome_completo}
+              %td #{item.cpf}
+              %td #{item.cns}
+              %td #{parse_created_at item.created_at}
+              %td.text-center
+                = link_to edit_panel_v1_municipe_path(item), class: 'btn btn-round btn-info', remote: true, data: {disable_with: disable_with} do
+                  EDITAR
+.pagination.justify-content-center
+  = paginate @items, remote: true

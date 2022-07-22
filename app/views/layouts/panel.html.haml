@@ -1,0 +1,29 @@
+!!!
+%html
+  %head
+    %meta{:content => "text/html; charset=UTF-8", "http-equiv" => "Content-Type"}/
+    %meta{:charset => "utf-8"}/
+    %meta{:content => "width=device-width,initial-scale=1", :name => "viewport"}/
+    %link{ rel: "shortcut icon", href: "#" }
+    %title
+      Municipe Test
+    %meta{:content => "#", :name => "og:title"}/
+    %meta{:content => "website", :name => "og:type"}/
+    %meta{:content => "noindex", :name => "robots"}/
+    %meta{:content => "noindex", :name => "googlebot"}/
+    = render partial: 'assets/css', cached: true
+    = stylesheet_link_tag    'application', media: 'all'
+    = javascript_include_tag 'application'
+    = javascript_include_tag "//www.gstatic.com/charts/loader.js"
+    = javascript_include_tag '//www.google.com/jsapi'
+    = action_cable_meta_tag
+    = csrf_meta_tags
+  %body.sidebar-mini
+    .wrapper
+      = render partial: "panel/v1/shared/left_sidebar"
+      .main-panel
+        .content
+          .container-fluid
+            = yield
+  = render partial: 'assets/js', cached: true
+  #editable-modal-area

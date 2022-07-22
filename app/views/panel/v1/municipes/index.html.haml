@@ -1,0 +1,37 @@
+.card
+  .card-header.card-header-rose.card-header-text
+    .card-text
+      %h4.card-title Filtro
+  .card-body
+    = form_for('', url: '/panel/v1/municipes', method: :get, remote: true) do |f|
+      .form-row.justify-content-center
+        .col-lg-3
+          .form-group.bmd-form-group.is-filled
+            = f.select :type,[['Nome', 'nome_completo'],['CPF', 'cpf'],['CNS', 'cns']],
+                         {},
+                         { class: 'form-control select2' }
+        .col-lg-6
+          .form-group.bmd-form-group.is-filled
+            = f.text_field :data, class: 'form-control', placeholder: 'Dado do Municipe'
+        .col-auto
+          .form-group.col-md-1
+            = f.submit "PESQUISAR", class: "btn btn-success", data_turbolinks: "false"
+
+.row
+  .col-md-12
+    .card
+      .col-lg-12
+        .pull-left
+          .card-header.card-header-warning.card-header-icon
+            .card-icon
+              %i.fa.fa-users
+        .pull-right
+          .card-header.card-header-rose.card-header-icon
+            .card-icon
+              = link_to new_panel_v1_municipe_path, remote: true, data: {disable_with: disable_with} do
+                %i.material-icons.text-white add
+
+        %h4.card-title.mt-2 #{@items.size} Municipes
+
+      #container
+        = render partial: 'panel/v1/municipes/shared/items', locals: { items: @items }

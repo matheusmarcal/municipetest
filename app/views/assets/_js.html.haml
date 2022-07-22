@@ -1,0 +1,264 @@
+<script src="https://unpkg.com/popper.js@1.12.6/dist/umd/popper.js" integrity="sha384-fA23ZRQ3G/J53mElWqVJEGJzU0sTs+SvzG8fXVWP+kJQ1lwFAOkcUOysnlKJC33U" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/bootstrap-material-design@4.1.1/dist/js/bootstrap-material-design.js" integrity="sha384-CauSuKpEqAFajSpkdjv3z9t8E7RlpJ1UP0lKM/+NdtSarroVKu069AlsRPKkFBz9" crossorigin="anonymous"></script>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.7/css/select2.min.css" rel="stylesheet" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.7/js/select2.min.js"></script>
+%script{:src => "https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.15/jquery.mask.js"}
+%style{:src => "https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap4.min.css"}
+%style{:src => "https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css"}
+%style{:src => "https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.css"}
+%style{:src => "/assets_material/scss/select2-bootstrap4.scss"}
+%script{:src => "https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"}
+%script{:src => "https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js"}
+%script{:src => "https://unpkg.com/sweetalert/dist/sweetalert.min.js"}
+
+<!--   Core JS Files   -->
+<script src="/assets_material/js/core/popper.min.js"></script>
+<script src="/assets_material/js/core/bootstrap-material-design.min.js"></script>
+<script src="/assets_material/js/plugins/perfect-scrollbar.jquery.min.js"></script>
+<script src="/assets_material/js/plugins/moment.min.js"></script>
+<script src="/assets_material/js/plugins/sweetalert2.js"></script>
+<script src="/assets_material/js/plugins/jquery.validate.min.js"></script>
+<script src="/assets_material/js/plugins/jquery.bootstrap-wizard.js"></script>
+<script src="/assets_material/js/plugins/bootstrap-selectpicker.js"></script>
+<script src="/assets_material/js/plugins/bootstrap-datetimepicker.min.js"></script>
+<script src="/assets_material/js/plugins/jquery.dataTables.min.js"></script>
+<script src="/assets_material/js/plugins/bootstrap-tagsinput.js"></script>
+<script src="/assets_material/js/plugins/jasny-bootstrap.min.js"></script>
+<script src="/assets_material/js/plugins/fullcalendar.min.js"></script>
+<script src="/assets_material/js/plugins/jquery-jvectormap.js"></script>
+<script src="/assets_material/js/plugins/nouislider.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/core-js/2.4.1/core.js"></script>
+<script src="/assets_material/js/plugins/arrive.min.js"></script>
+<script src="/assets_material/js/plugins/chartist.min.js"></script>
+<script src="/assets_material/js/plugins/bootstrap-notify.js"></script>
+<script src="/assets_material/js/material-dashboard.js?v=2.1.0" type="text/javascript"></script>
+<script src="/assets_material/demo/demo.js"></script>
+
+:javascript
+  function reloadSelects(){
+    setTimeout(function() {
+      $('select').select2({
+        allowClear: true,
+        placeholder: "Pesquisar",
+        width: '100%',
+        theme: 'bootstrap'
+      });
+    },500);
+  }
+
+  function loadCustomDataTables(){
+    try{
+      $('[data-toggle="tooltip"]').tooltip();
+      $('.custom-table').DataTable({
+          "bLengthChange" : false,
+          "pageLength": 500,
+          "info":     false,
+          "dom": "Bfrtip",
+          "bDestroy": true,
+          "pagingType": "numbers",
+          "language": {
+              "url": "https://cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Portuguese.json"
+          }
+      });
+    }catch (e) {  }
+  }
+
+  function loadMasks(){
+    $('.date').mask('00/00/0000');
+    $('.time').mask('00:00:00');
+    $('.date_time').mask('00/00/0000 00:00:00');
+    $('.cep').mask('00000-000');
+    $('.phone').mask('(00) 0000-0000');
+    $('.cellphone').mask('(00) 00000-0000');
+    $('.mixed').mask('AAA 000-S0S');
+    $('.cpf').mask('000.000.000-00', {reverse: true});
+    $('.cnpj').mask('00.000.000/0000-00', {reverse: true});
+    $('.money').mask('000.000.000.000.000,00', {reverse: true});
+    $('.money2').mask("#.##0,00", {reverse: true});
+  }
+
+  function loadLegacyScripts(){
+    setTimeout(function() {
+      listenerStates();
+      reloadSelects();
+      loadCustomDataTables();
+      loadMasks();
+    },500)
+  }
+
+  $(document).ready(function($) {
+    console.log("#{Figaro.env.company_human_name} is ready.");
+    $(".alert-dismissible").delay(4000).slideUp(200, function() {
+        $(this).alert('close');
+    });
+    loadLegacyScripts();
+
+    $sidebar = $('.sidebar');
+
+    $sidebar_img_container = $sidebar.find('.sidebar-background');
+
+    $full_page = $('.full-page');
+
+    $sidebar_responsive = $('body > .navbar-collapse');
+
+    window_width = $(window).width();
+
+    fixed_plugin_open = $('.sidebar .sidebar-wrapper .nav li.active a p').html();
+
+    if (window_width > 767 && fixed_plugin_open == 'Dashboard') {
+      if ($('.fixed-plugin .dropdown').hasClass('show-dropdown')) {
+        $('.fixed-plugin .dropdown').addClass('open');
+      }
+
+    }
+
+    $('.fixed-plugin a').click(function(event) {
+      // Alex if we click on switch, stop propagation of the event, so the dropdown will not be hide, otherwise we set the  section active
+      if ($(this).hasClass('switch-trigger')) {
+        if (event.stopPropagation) {
+          event.stopPropagation();
+        } else if (window.event) {
+          window.event.cancelBubble = true;
+        }
+      }
+    });
+
+    $('.fixed-plugin .active-color span').click(function() {
+      $full_page_background = $('.full-page-background');
+
+      $(this).siblings().removeClass('active');
+      $(this).addClass('active');
+
+      var new_color = $(this).data('color');
+
+      if ($sidebar.length != 0) {
+        $sidebar.attr('data-color', new_color);
+      }
+
+      if ($full_page.length != 0) {
+        $full_page.attr('filter-color', new_color);
+      }
+
+      if ($sidebar_responsive.length != 0) {
+        $sidebar_responsive.attr('data-color', new_color);
+      }
+    });
+
+    $('.fixed-plugin .background-color .badge').click(function() {
+      $(this).siblings().removeClass('active');
+      $(this).addClass('active');
+
+      var new_color = $(this).data('background-color');
+
+      if ($sidebar.length != 0) {
+        $sidebar.attr('data-background-color', new_color);
+      }
+    });
+
+    $('.fixed-plugin .img-holder').click(function() {
+      $full_page_background = $('.full-page-background');
+
+      $(this).parent('li').siblings().removeClass('active');
+      $(this).parent('li').addClass('active');
+
+
+      var new_image = $(this).find("img").attr('src');
+
+      if ($sidebar_img_container.length != 0 && $('.switch-sidebar-image input:checked').length != 0) {
+        $sidebar_img_container.fadeOut('fast', function() {
+          $sidebar_img_container.css('background-image', 'url("' + new_image + '")');
+          $sidebar_img_container.fadeIn('fast');
+        });
+      }
+
+      if ($full_page_background.length != 0 && $('.switch-sidebar-image input:checked').length != 0) {
+        var new_image_full_page = $('.fixed-plugin li.active .img-holder').find('img').data('src');
+
+        $full_page_background.fadeOut('fast', function() {
+          $full_page_background.css('background-image', 'url("' + new_image_full_page + '")');
+          $full_page_background.fadeIn('fast');
+        });
+      }
+
+      if ($('.switch-sidebar-image input:checked').length == 0) {
+        var new_image = $('.fixed-plugin li.active .img-holder').find("img").attr('src');
+        var new_image_full_page = $('.fixed-plugin li.active .img-holder').find('img').data('src');
+
+        $sidebar_img_container.css('background-image', 'url("' + new_image + '")');
+        $full_page_background.css('background-image', 'url("' + new_image_full_page + '")');
+      }
+
+      if ($sidebar_responsive.length != 0) {
+        $sidebar_responsive.css('background-image', 'url("' + new_image + '")');
+      }
+    });
+
+    $('.switch-sidebar-image input').change(function() {
+      $full_page_background = $('.full-page-background');
+
+      $input = $(this);
+
+      if ($input.is(':checked')) {
+        if ($sidebar_img_container.length != 0) {
+          $sidebar_img_container.fadeIn('fast');
+          $sidebar.attr('data-image', '#');
+        }
+
+        if ($full_page_background.length != 0) {
+          $full_page_background.fadeIn('fast');
+          $full_page.attr('data-image', '#');
+        }
+
+        background_image = true;
+      } else {
+        if ($sidebar_img_container.length != 0) {
+          $sidebar.removeAttr('data-image');
+          $sidebar_img_container.fadeOut('fast');
+        }
+
+        if ($full_page_background.length != 0) {
+          $full_page.removeAttr('data-image', '#');
+          $full_page_background.fadeOut('fast');
+        }
+
+        background_image = false;
+      }
+    });
+
+    $('.switch-sidebar-mini input').change(function() {
+      $body = $('body');
+
+      $input = $(this);
+
+      if (md.misc.sidebar_mini_active == true) {
+        $('body').removeClass('sidebar-mini');
+        md.misc.sidebar_mini_active = false;
+
+        $('.sidebar .sidebar-wrapper, .main-panel').perfectScrollbar();
+
+      } else {
+
+        $('.sidebar .sidebar-wrapper, .main-panel').perfectScrollbar('destroy');
+
+        setTimeout(function() {
+          $('body').addClass('sidebar-mini');
+
+          md.misc.sidebar_mini_active = true;
+        }, 300);
+      }
+
+      var simulateWindowResize = setInterval(function() {
+        window.dispatchEvent(new Event('resize'));
+      }, 180);
+
+      setTimeout(function() {
+        clearInterval(simulateWindowResize);
+      }, 1000);
+
+    });
+
+    md.initDashboardPageCharts();
+
+    md.initVectorMap();
+
+  });
