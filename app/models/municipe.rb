@@ -55,11 +55,11 @@ class Municipe < ApplicationRecord
 
   def notify_created
     MailerJob.set(wait: 10.seconds).perform_later(self, 'municipe_create')
-    SendSms.new({phone: self.telefone, message: "Olá #{self.nome_completo}, seu cadastro de municipe foi criado!"}).call
+    SmsJob.set(wait: 15.seconds).perform_later(self, 'municipe_create')
   end
 
   def notify_status
     MailerJob.set(wait: 10.seconds).perform_later(self, 'municipe_update')
-    SendSms.new({phone: self.telefone, message: "Olá #{self.nome_completo}, seu cadastro de municipe foi mudou para #{self.status.eql?(true) ? 'Ativo' : 'Inativo'}!"}).call
+    SmsJob.set(wait: 15.seconds).perform_later(self, 'municipe_update')
   end
 end
